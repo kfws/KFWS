@@ -1,0 +1,20 @@
+{
+  "name": "weather-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Judah Goff",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@octokit/graphql": "^4.3.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "request": "^2.88.2"
+  },
+  "scripts": {
+    "start": "node ."
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
+  }
+}
