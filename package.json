@@ -12,7 +12,8 @@
     "request": "^2.88.2"
   },
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "dev": "node -r dotenv/config ."
   },
   "devDependencies": {
     "dotenv": "^8.2.0"

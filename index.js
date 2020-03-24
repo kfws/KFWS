@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const util = require('util');
@@ -49,6 +48,7 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/weather/:city', async (req, res) => {
+  console.log(process.env);
   const result = await request(
     weatherURL +
       '&q=' +
