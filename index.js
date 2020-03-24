@@ -2,11 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const util = require('util');
 const cRequest = require('request');
+const bodyParser = require('body-parser');
 const request = util.promisify(cRequest);
 const { graphql } = require('@octokit/graphql');
 
 const app = express();
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const weatherURL =
   'http://api.openweathermap.org/data/2.5/forecast?units=imperial';
@@ -45,6 +48,33 @@ app.get('/', async (req, res) => {
       new Date(edge.node.createdAt).toLocaleTimeString()
   }));
   res.json(result);
+});
+
+app.post('/', async (req, res) => {
+  try {
+    await graphql(
+      `
+        mutation createIssue ($repoId: String!, $title: String!) {
+          createIssue(input: { repositoryId: $repoId, title: $title }) {
+            issue {
+              id
+            }
+          }
+        }
+      `,
+      {
+        repoId: process.env.REPO_ID,
+        title: req.body.title,
+        headers: {
+          authorization: `token ${process.env.ACCESS_TOKEN}`
+        }
+      }
+    );
+    res.status(201).json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json(err);
+  }
 });
 
 app.get('/weather/:city', async (req, res) => {
